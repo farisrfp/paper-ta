@@ -1,31 +1,37 @@
-name: CI
 on:
   workflow_dispatch:
   push:
-    branches: [main]
+    branches: [master]
+
 jobs:
   compile:
     name: Compile
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.1.1
 
-      - name: Compile document indo paper
-        uses: xu-cheng/latex-action@3.1.0
+      - name: Create dist directory
+        run: mkdir dist
+
+      - name: Compile LaTeX ID
+        uses: xu-cheng/latex-action@v3
         with:
           root_file: paper-id.tex
 
-      - name: Compile document english paper
-        uses: xu-cheng/latex-action@3.1.0
+      - name: Compile LaTeX EN
+        uses: xu-cheng/latex-action@v3
         with:
           root_file: paper-en.tex
+      
+      - name: Move PDF ID to dist
+        run: mv paper-id.pdf dist/paper-id.pdf
 
-      - name: Rename document
-        run: mkdir dist && mv paper-id.pdf dist/paper-ta-ina.pdf && mv paper-en.pdf dist/paper-ta-eng.pdf
+      - name: Move PDF EN to dist
+        run: mv paper-en.pdf dist/paper-en.pdf
 
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Upload PDF
+        uses: actions/upload-pages-artifact@v2.0.0
         with:
           path: dist
 
@@ -46,8 +52,8 @@ jobs:
       cancel-in-progress: false
     steps:
       - name: Configure Pages
-        uses: actions/configure-pages@v4
+        uses: actions/configure-pages@v3.0.6
 
       - name: Deploy to Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v2.0.4
