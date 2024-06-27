@@ -1,16 +1,16 @@
-# Template Paper Tugas Akhir (IEEE Format)
+# Paper Tugas Akhir (IEEE Format)
 
 <img src="https://www.its.ac.id/komputer/wp-content/uploads/sites/28/2018/03/image10.png" alt="Teknik Komputer ITS" width="150" height="150">
 
 ## Deskripsi
 
-Repositori ini berisi template [LaTeX](https://www.latex-project.org/) dari buku tugas akhir yang disesuaikan dengan format yang diberlakukan oleh [Institut Teknologi Sepuluh Nopember](https://www.its.ac.id/) (ITS) dan [IEEE](https://www.ieee.org/conferences/publishing/templates.html) .
+Repositori ini berisi paper tugas akhir (TA) yang menggunakan format IEEE. Template ini dibuat untuk memudahkan mahasiswa Teknik Komputer ITS dalam menyusun paper TA mereka.
 
-> Contoh file PDF dari template ini bisa dilihat disini:
+> PDF dari paper tugas akhir ini dapat dilihat di:
 >
-> - [Indonesia Version](https://lab-b300-miot.github.io/template-paper-ta/paper-ta-ina.pdf)
+> - [Indonesia Version](https://farisrfp.github.io/paper-ta/paper-id.pdf)
 >
-> - [English Version](https://lab-b300-miot.github.io/template-paper-ta/paper-ta-eng.pdf)
+> - [English Version](https://farisrfp.github.io/paper-ta/paper-en.pdf)
 
 ## Referensi
 
