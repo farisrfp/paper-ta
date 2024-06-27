@@ -1,0 +1,11 @@
+% Change the title and label below as desired.
+\section{Introduction}
+\label{sec:introduction}
+
+In recent years, rapid developments in the field of robotics have changed the way humans interact with robots, especially in the context of humanoid robots\cite{chiang2020posture}. One key aspect in designing humanoid robots is maintaining balance and stability, particularly when the robot is performing activities involving leg movements with support on one leg. This becomes crucial in robot dance competitions, where the robot must be able to maintain balance and walk on flat surfaces of different heights without falling.
+
+Previous research has shown various approaches to achieving balance in humanoid robots. For example, Farah Risha (2023)\cite{farah} used an IMU sensor to obtain pitch angle data, which was then processed by a microcontroller to correct the angle on the robot's actuators. However, this system has not yet achieved the desired effectiveness. On the other hand, Arifin (2017)\cite{arifin2017implementasi} investigated the use of pressure sensors on the soles of the feet as part of the balance control system. The main challenge in this research was the inefficiency of data transmission through cables, which was prone to disruption due to leg movements.
+
+The main problem faced is that the robot still tends to fall when disturbances occur while standing on one leg. Therefore, it is necessary to improve the system's response to changes in balance. Pressure sensors offer a more accurate solution in measuring changes in the center of pressure on the robot, allowing the system to respond quickly. The implementation of wireless technology based on 2.4GHz radio signals is proposed to improve the efficiency of data transmission from pressure sensors on the soles of the feet.
+
+This study aims to develop a balance system for humanoid robots utilizing pressure sensors from load cells, focusing on improving the robot's stability when standing on one leg. The problem constraints include the static nature of the robot's upper body, the number of degrees of freedom in the legs, the use of the ESP32 microcontroller, and the definition of balance as the robot's ability not to fall when moving on uneven surfaces.

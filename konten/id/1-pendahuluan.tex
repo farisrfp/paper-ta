@@ -1,0 +1,11 @@
+% Ubah judul dan label berikut sesuai dengan yang diinginkan.
+\section{Pendahuluan}
+\label{sec:pendahuluan}
+
+Dalam beberapa tahun terakhir, perkembangan pesat dalam bidang robotika telah mengubah cara interaksi antara manusia dan robot, terutama dalam konteks robot humanoid\cite{chiang2020posture}. Salah satu aspek kunci dalam perancangan robot humanoid adalah menjaga keseimbangan dan stabilitas, khususnya ketika robot melakukan aktivitas yang melibatkan gerakan kaki dengan dukungan pada satu kaki. Hal ini menjadi sangat krusial dalam perlombaan robot tari, di mana robot harus mampu mempertahankan keseimbangan dan berjalan di permukaan datar dengan ketinggian yang berbeda tanpa terjatuh.
+
+Penelitian sebelumnya telah menunjukkan berbagai pendekatan untuk mencapai keseimbangan pada robot humanoid. Misalnya, Farah Risha (2023)\cite{farah} menggunakan sensor IMU untuk memperoleh data sudut kemiringan pitch yang kemudian diproses oleh mikrokontroler untuk memperbaiki sudut pada aktuator robot. Namun, sistem ini masih belum mencapai efektivitas yang diinginkan. Di sisi lain, Arifin (2017)\cite{arifin2017implementasi} meneliti penggunaan sensor tekanan pada alas kaki sebagai bagian dari sistem kontrol keseimbangan. Kendala utama pada penelitian ini adalah ketidakefisienan pengiriman data melalui kabel, yang rentan terhadap gangguan pergerakan kaki.
+
+Masalah utama yang dihadapi adalah robot masih cenderung jatuh saat terjadi gangguan ketika bertumpu pada satu kaki. Oleh karena itu, diperlukan peningkatan respons sistem terhadap perubahan keseimbangan. Sensor tekanan menawarkan solusi yang lebih akurat dalam mengukur perubahan pusat tekanan pada robot, memungkinkan sistem untuk merespons dengan cepat. Implementasi teknologi nirkabel berbasis sinyal radio berfrekuensi 2.4GHz diusulkan untuk meningkatkan efisiensi pengiriman data dari sensor tekanan pada telapak kaki.
+
+Penelitian ini bertujuan untuk mengembangkan sistem keseimbangan pada robot humanoid yang memanfaatkan sensor tekanan dari load cell, dengan fokus pada peningkatan stabilitas robot saat bertumpu pada satu kaki. Batasan masalah yang ditetapkan mencakup statisnya bagian tubuh atas robot, jumlah derajat kebebasan pada bagian kaki, penggunaan mikrokontroler ESP32, dan definisi keseimbangan sebagai kemampuan robot untuk tidak terjatuh saat bergerak di permukaan yang tidak rata.
