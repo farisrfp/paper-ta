@@ -88,12 +88,6 @@
     \label{subsec:desainsistemloadcell}
 
     \hspace*{1em} Setiap telapak kaki robot dilengkapi dengan 4 load cell yang terpasang di ujung-ujung kaki. Masing-masing load cell mendeteksi tekanan, sehingga memungkinkan sistem untuk menentukan posisi pusat tekanan pada telapak kaki robot. Desain telapak kaki robot dapat dilihat pada Gambar \ref{fig:Dia_LoadCell}.
-
-    \begin{figure} [h] \centering
-        \includegraphics[width=0.3\textwidth]{gambar/Diagram_LoadCell.png}
-        \caption{Desain Load Cell pada Telapak Kaki Robot}
-        \label{fig:Dia_LoadCell}
-    \end{figure}
     
     \begin{figure} [h] \centering
       \includegraphics[width=0.4\textwidth]{gambar/Desain_PCB.png}
@@ -101,7 +95,27 @@
       \label{fig:Desain_PCB}
     \end{figure}
 
+    \begin{figure} [h] \centering
+        \includegraphics[width=0.3\textwidth]{gambar/Diagram_LoadCell.png}
+        \caption{Desain Load Cell pada Telapak Kaki Robot}
+        \label{fig:Dia_LoadCell}
+    \end{figure}
+
     \hspace*{1em} Gambar \ref{fig:Desain_PCB} menunjukkan desain jalur PCB yang akan digunakan pada robot. PCB ini memiliki dimensi 50 x 36 mm dengan dua lapisan (layer). Lapisan atas berisi komponen SMD, sementara lapisan bawah mencakup konektor dan mikrokontroler. Desain dua lapisan ini memungkinkan penggunaan ruang yang lebih efisien dan memberikan fleksibilitas dalam penempatan komponen.  
+    
+    \item Pengolahan Data Load Cell
+    \label{subsec:firmwaremikrokontroler}
+
+    \hspace*{1em} IC HX711 tidak memiliki internal register, dan komunikasi dengannya dilakukan secara sinkron menggunakan dua pin: pin data (DOUT) dan pin clock (PD\_SCK). Ketika data siap diambil, pin data berubah menjadi logika rendah. Untuk mengambil data, kita perlu mengirim 25 hingga 27 pulsa ke pin clock, dengan 25 pulsa untuk penguatan (gain) 128. Jika pin data berubah menjadi logika tinggi, data sudah siap diambil; jika tetap rendah, data belum siap. Untuk menghindari blocking saat membaca data dari beberapa \emph{load cell}, dapat digunakan pendekatan konkurensial seperti pada Gambar \ref{fig:Task_LoadCell}.
+
+    \begin{figure} [h] \centering
+      \includegraphics[width=0.4\textwidth]{gambar/Task_LoadCell.png}
+      \caption{Concurrent Task pada Pembacaan \emph{Load Cell}}
+      \label{fig:Task_LoadCell}
+    \end{figure}
+
+    \hspace*{1em} ESP32 menggunakan FreeRTOS yang mendukung multitasking, memungkinkan beberapa tugas berjalan bersamaan. Dalam contoh ini, empat tugas masing-masing bertanggung jawab membaca data dari empat \emph{load cell} yang berbeda. Setiap tugas mengirimkan pulsa ke pin clock dan membaca data dari pin data. Setelah satu tugas selesai, tugas berikutnya dapat membaca data dari \emph{load cell} lain. Pendekatan ini memungkinkan pembacaan data dari berbagai \emph{load cell} tanpa menghambat tugas lainnya, meningkatkan efisiensi dan kinerja sistem.
+
 
     \item Algoritma Program Pemanggilan \textit{Motion}
     \label{subsec:algoritmamotion}
@@ -138,16 +152,28 @@
     \item Algoritma Kontrol PID
     \label{subsec:algoritmakontrolpid}
 
-    \hspace*{1em} Pada penelitian ini, terdapat dua kontrol PID yang digunakan, yaitu kontrol PID Pitch dan kontrol PID Roll. Pada kontrol PID Pitch, input berupa nilai error antara posisi pusat tekanan sumbu Y dengan set point, sedangkan pada kontrol PID Roll, input berupa nilai error antara posisi pusat tekanan sumbu X dengan set point. Nilai errr diperoleh dari perbedaan antara posisi pusat tekanan dengan set point seperti pada Persamaan \ref{eq:Error_Pitch} dan \ref{eq:Error_Roll}.
+    \hspace*{1em} Pada penelitian ini, terdapat dua kontrol PID yang digunakan, yaitu kontrol PID Pitch dan kontrol PID Roll. Pada kontrol PID Pitch, input berupa nilai posisi pusat tekanan pada sumbu Y. Sedangkan pada kontrol PID Roll, input berupa nilai posisi pusat tekanan pada sumbu X. Untuk setpoint kontrol PID Pitch dan Roll, digunakan nilai yang sudah ditemukan pada pengambilan data input pusat tekanan sebelumnya. Nilai error diperoleh dari selisih antara posisi pusat tekanan saat ini dengan setpoint seperti pada Persamaan \ref{eq:Error_PID} dan koreksi PID dihitung dengan Persamaan \ref{eq:Koreksi_PID}.
 
     \begin{equation}
-      \mathrm{e}_{\mathrm{pitch}} = \mathrm{SetPoint}_{\mathrm{pitch}} - COP_{\mathrm{Y}}
-      \label{eq:Error_Pitch}
+      \mathrm{e} = COP_{\mathrm{error}} = COP_{\mathrm{set}} - COP_{\mathrm{input}}
+      \label{eq:Error_PID}
     \end{equation}
 
     \begin{equation}
-      \mathrm{e}_{\mathrm{roll}} = \mathrm{SetPoint}_{\mathrm{roll}} - COP_{\mathrm{X}}
-      \label{eq:Error_Roll}
+      \mathrm{Koreksi} = \mathrm{Kp} \cdot \mathrm{e} + \mathrm{Ki} \cdot \int \mathrm{e} + \mathrm{Kd} \cdot \frac{\mathrm{de}}{\mathrm{dt}}
+      \label{eq:Koreksi_PID}
     \end{equation}
- 
+
+    \item Servo Settings as Compensation
+    \label{subsec:servosettings}
+
+    \hspace*{1em} The servos used are located at the \textit{hip adduction} and \textit{ankle} because these two parts have a significant impact on the robot's posture stability when standing on one leg. The hip servo functions to control the upper part of the robot, while the ankle servo controls the movement of the foot. By precisely adjusting the servo angles, the robot can make the necessary adjustments to maintain balance when moving or standing on uneven surfaces.
+
+    \begin{figure} [h] \centering
+      \includegraphics[width=0.4\textwidth]{gambar/controlled_servo.png}
+      \caption{Servo Settings as Compensation}
+      \label{fig:Controlled_Servo}
+    \end{figure}
+
+    \hspace*{1em} In this research, five servos are used to control the roll movement, consisting of two servos on each ankle, one servo on the torso, and two servos on each hip adduction. The servo settings as compensation can be seen in Figure \ref{fig:Controlled_Servo}, indicated by the blue-colored servos.
 \end{enumerate}

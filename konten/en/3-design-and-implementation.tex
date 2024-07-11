@@ -90,18 +90,31 @@
     \hspace*{1em} Each robot's sole is equipped with 4 load cells mounted at the ends of the feet. Each load cell detects pressure, allowing the system to determine the position of the center of pressure on the robot's sole. The design of the robot's sole can be seen in Figure \ref{fig:Dia_LoadCell}.
 
     \begin{figure} [h] \centering
-        \includegraphics[width=0.3\textwidth]{gambar/Diagram_LoadCell.png}
-        \caption{Load Cell Design on the Robot's Sole}
-        \label{fig:Dia_LoadCell}
-    \end{figure}
-    
-    \begin{figure} [h] \centering
       \includegraphics[width=0.4\textwidth]{gambar/Desain_PCB.png}
       \caption{PCB Design}
       \label{fig:Desain_PCB}
     \end{figure}
 
-    \hspace*{1em} Figure \ref{fig:Desain_PCB} shows the PCB layout design to be used on the robot. This PCB has dimensions of 50 x 36 mm with two layers. The top layer contains SMD components, while the bottom layer includes connectors and a microcontroller. This two-layer design allows for more efficient space usage and provides flexibility in component placement.  
+    \begin{figure} [h] \centering
+        \includegraphics[width=0.3\textwidth]{gambar/Diagram_LoadCell.png}
+        \caption{Load Cell Design on the Robot's Sole}
+        \label{fig:Dia_LoadCell}
+    \end{figure}
+    
+    \hspace*{1em} Figure \ref{fig:Desain_PCB} shows the PCB layout design to be used on the robot. This PCB has dimensions of 50 x 36 mm with two layers. The top layer contains SMD components, while the bottom layer includes connectors and a microcontroller. This two-layer design allows for more efficient space usage and provides flexibility in component placement.
+    
+    \item Load Cell Data Processing
+    \label{subsec:firmwaremicrocontroller}
+
+    \hspace*{1em} The HX711 IC does not have internal registers, and communication with it is done synchronously using two pins: the data pin (DOUT) and the clock pin (PD\_SCK). When the data is ready to be retrieved, the data pin changes to low logic. To retrieve the data, we need to send 25 to 27 pulses to the clock pin, with 25 pulses for a gain of 128. If the data pin changes to high logic, the data is ready to be retrieved; if it remains low, the data is not ready. To avoid blocking when reading data from multiple load cells, a concurrent approach can be used as shown in Figure \ref{fig:Task_LoadCell}.
+
+    \begin{figure} [h] \centering
+      \includegraphics[width=0.4\textwidth]{gambar/Task_LoadCell.png}
+      \caption{Concurrent Task in Load Cell Reading}
+      \label{fig:Task_LoadCell}
+    \end{figure}
+
+    \hspace*{1em} The ESP32 uses FreeRTOS, which supports multitasking, allowing multiple tasks to run simultaneously. In this example, four tasks are each responsible for reading data from four different load cells. Each task sends pulses to the clock pin and reads data from the data pin. After one task is completed, the next task can read data from another load cell. This approach allows data to be read from various load cells without blocking other tasks, improving the system's efficiency and performance.
 
     \item Motion Call Algorithm
     \label{subsec:motionalgorithm}
@@ -138,16 +151,17 @@
     \item PID Control Algorithm
     \label{subsec:pidcontrolalgorithm}
 
-    \hspace*{1em} In this research, two PID controls are used: PID Pitch control and PID Roll control. In PID Pitch control, the input is the error value between the center of pressure position on the Y-axis and the set point, while in PID Roll control, the input is the error value between the center of pressure position on the X-axis and the set point. The error value is obtained from the difference between the center of pressure position and the set point as in Equations \ref{eq:Error_Pitch} and \ref{eq:Error_Roll}.
+    \hspace*{1em} In this research, two PID controllers are used, namely the Pitch PID control and the Roll PID control. For the Pitch PID control, the input is the value of the center of pressure position on the Y-axis. Meanwhile, for the Roll PID control, the input is the value of the center of pressure position on the X-axis. For the setpoints of the Pitch and Roll PID controls, values obtained from previous center of pressure data collection are used. The error value is obtained from the difference between the current center of pressure position and the setpoint, as shown in Equation \ref{eq:Error_PID}, and the PID correction is calculated with Equation \ref{eq:Correction_PID}.
 
-    \begin{equation}
-      \mathrm{e}_{\mathrm{pitch}} = \mathrm{SetPoint}_{\mathrm{pitch}} - COP_{\mathrm{Y}}
-      \label{eq:Error_Pitch}
-    \end{equation}
+\begin{equation}
+  \mathrm{e} = COP_{\mathrm{error}} = COP_{\mathrm{set}} - COP_{\mathrm{input}}
+  \label{eq:Error_PID}
+\end{equation}
 
-    \begin{equation}
-      \mathrm{e}_{\mathrm{roll}} = \mathrm{SetPoint}_{\mathrm{roll}} - COP_{\mathrm{X}}
-      \label{eq:Error_Roll}
-    \end{equation}
+\begin{equation}
+  \mathrm{Correction} = \mathrm{Kp} \cdot \mathrm{e} + \mathrm{Ki} \cdot \int \mathrm{e} + \mathrm{Kd} \cdot \frac{\mathrm{de}}{\mathrm{dt}}
+  \label{eq:Correction_PID}
+\end{equation}
+
  
 \end{enumerate}
