@@ -8,7 +8,7 @@ Dilakukan pengujian dan analisis terhadap perancangan dan implementasi yang tela
     \item Pengujian Karakterisasi Pada Masing-Masing Sensor Load Cell
     \label{subsec:hasil-pembahasan-karakterisasi}
 
-        \hspace*{1em} Pengujian kalibrasi sensor load cell dilakukan dengan menggunakan lima bandul referensi massa (50g, 100g, 200g, 500g, dan 1000g) untuk menentukan koefisien gradien dan konstanta tare weight. Load cell dihubungkan dalam dua kelompok: Load Cell 1 dan 4, serta Load Cell 2 dan 3. 
+        \hspace*{1em} Pengujian kalibrasi sensor load cell dilakukan dengan menggunakan lima bandul referensi massa (50g, 100g, 200g, 500g, dan 1000g). Bandul terkecil (50 gram) digunakan untuk menentukan koefisien gradien, sedangkan konstanta diperoleh dari \textit{tare weight} (titik 0 ketika \emph{load cell} tidak ada beban). Data hasil perhitungan ini kemudian digunakan untuk menghitung tingkat kesalahan (\textit{error}) dari setiap \emph{load cell} yang digunakan dengan membandingkan dengan massa aktual. 
 
         \begin{table}[h]
             \centering
@@ -79,7 +79,7 @@ Dilakukan pengujian dan analisis terhadap perancangan dan implementasi yang tela
         \end{table}
     
         
-        \hspace*{1em} Data pembacaan digital dari load cell dihitung menjadi massa aktual menggunakan persamaan kalibrasi, dan kesalahan diukur dengan membandingkan hasil dengan massa aktual. Hasil pengukuran menunjukkan kesalahan bervariasi antara 0 hingga 20 gram. Meskipun tidak sepenuhnya linear, persamaan kalibrasi yang digunakan cukup akurat dengan toleransi kesalahan sebesar 5\%.
+        \hspace*{1em} Hasil pengujian karakterisasi pada masing-masing \emph{load cell} menunjukkan adanya kesalahan pengukuran yang bervariasi, berkisar antara 0 hingga 19 gram. Kesalahan ini tidak linear, menunjukkan bahwa kesalahan pengukuran tidak konstan pada setiap \emph{load cell}. Meskipun demikian, persamaan linear masih dapat digunakan untuk menghitung massa aktual dari pembacaan \emph{load cell} meskipun tidak sepenuhnya akurat.
 
     \item Pengujian Tekanan Pada Telapak Kaki
     \label{subsec:hasil-pembahasan-tekanan}
@@ -134,83 +134,76 @@ Dilakukan pengujian dan analisis terhadap perancangan dan implementasi yang tela
             \label{tab:pengukuran_berat_kaki_kanan}
         \end{table}
 
-        \hspace*{1em} Berdasarkan hasil pengujian, rata-rata kesalahan yang dihasilkan oleh kaki kiri adalah 14.8 gram dan kaki kanan adalah 16.4 gram.
-
-    \item Pengujian Pusat Tekanan Terhadap Robot
-    \label{subsec:hasil-pembahasan-pusat-tekanan}
-
-        \hspace*{1em} Pengujian ini dilakukan dengan menggerakkan robot dalam pola berjalan dan mengambil data input dari sensor tekanan dengan interval 50 ms. Tujuan pengujian ini adalah untuk mendapatkan data pusat tekanan saat robot melakukan gerakan berjalan, serta untuk mengamati bagaimana pusat tekanan berubah selama gerakan berlangsung. Hasil Pengujian Pusat Tekanan Terhadap Robot dapat dilihat pada Gambar \ref{fig:pusat_tekanan_robot}.
-
         \begin{figure}[h]
             \centering
-            \includegraphics[width=0.45\textwidth]{gambar/motion_berjalan.png}
-            \caption{Grafik Pusat Tekanan Ketika Robot Berjalan Di Tempat}
-            \label{fig:pusat_tekanan_robot}
+            \includegraphics[width=0.4\textwidth]{gambar/chart_tekanan_kaki.png}
+            \caption{Grafik Hubungan Antara Berat Aktual dan Pembacaan \emph{Load Cell} pada Kaki Kiri dan Kaki Kanan}
+            \label{fig:tekanan_kaki}
         \end{figure}
 
-        \hspace*{1em} Hasil pengujian menunjukkan bahwa pusat tekanan berubah secara dinamis selama robot melakukan gerakan berjalan. Ketika robot mengangkat kaki kanan, pusat tekanan berpindah ke kaki kiri, dan nilai pusat tekan pada sumbu X memiliki nilai maksimum sebesar 1.44. Sebaliknya, ketika robot mengangkat kaki kiri, pusat tekanan berpindah ke kaki kanan, dan nilai pusat tekan pada sumbu X memiliki nilai minimum sebesar -1.3. Pada sumbu Y, nilai pusat tekanan berada pada rentang 0.16 hingga -0.06, yang menunjukkan bahwa pusat tekanan berada di tengah-tengah telapak kaki.
+        \hspace*{1em} Hasil pengukuran tekanan pada kaki kiri dan kaki kanan menunjukkan bahwa pembacaan \emph{load cell} pada kedua kaki memiliki kesalahan yang bervariasi, berkisar antara 0 hingga 50 gr. Kesalahan ini disebabkan oleh perbedaan karakteristik antara \emph{load cell} pada kaki kiri dan kaki kanan. Pada Gambar \ref{fig:tekanan_kaki} terlihat bahwa grafik tekanan yang dihasilkan oleh kaki kanan dan kaki kiri memiliki nilai pembacaan yang serupa.
 
     \item Pengujian Sistem Kontrol PID
     \label{subsec:hasil-pembahasan-pid}
 
-        \hspace*{1em} Pengujian ini, akan membandingkan pengaruh parameter \(K_p\) terhadap performa sistem kontrol PID. Pengujian dilakukan dengan mengukur Root Mean Square (RMS) dan hasil pengujian pada gerakan angkat kaki kanan dan kiri. 
+        \hspace*{1em} Pengujian ini, dilakukan skenario pengujian ini meliputi analisis pengaruh masing-masing parameter PID. Hasil yang akan dianalisis adalah pengaruh parameter PID terhadap respon sistem dan hasil nilai \textit{Root Mean Square (RMS)} yang dihasilkan oleh sistem. Pengujian dilakukan dengan mengangkat kaki kanan atau kaki kiri dengan kemiringan 3 derajat. Berikut adalah hasil pengujian sistem keseimbangan robot.
+        
+        \begin{table}[h]
+            \centering
+            \caption{Hasil Pengujian Pengaruh Parameter P, Mengangkat Kaki Kiri Dengan Kemiringan 3 Derajat}
+            \begin{tabular}{|c|c|c|c|c|}
+                \hline
+                \textbf{PID} & \textbf{Fall} & \textbf{Not Fall} & \textbf{Success} & RMS Error \\
+                \hline
+                $K_p = 0.00$ & 6 & 0 & 0   \% & 0.7598 \\
+                $K_p = 0.05$ & 6 & 0 & 0   \% & 0.7690 \\
+                $K_p = 0.10$ & 0 & 6 & 100 \% & 0.7779 \\
+                $K_p = 0.15$ & 1 & 5 & 83  \% & 0.8145 \\
+                $K_p = 0.20$ & 1 & 5 & 83  \% & 0.8870 \\
+                $K_p = 0.25$ & 0 & 6 & 100 \% & 0.8801 \\            
+                \hline
+            \end{tabular}
+            \label{tab:pengujian_p}
+        \end{table}
+
+        \hspace*{1em} Hasil pengujian pada Tabel \ref{tab:pengujian_p} menunjukkan bahwa nilai optimal parameter Kp untuk menjaga keseimbangan robot berkisar antara 0.10 hingga 0.20. Pada Kp = 0.00 dan Kp = 0.05, semua pengujian gagal dengan robot selalu jatuh. Nilai Kp = 0.10 menunjukkan performa terbaik dengan keberhasilan 100\% dalam menjaga keseimbangan pada gerakan mengangkat kaki kanan dan kiri di kemiringan 3 derajat. Nilai Kp yang lebih tinggi, seperti Kp = 0.25, menunjukkan penurunan performa. Hasil \textit{Root Mean Square} (RMS) menunjukkan error terkecil pada Kp = 0.10 dengan nilai 0.7779, menegaskan pentingnya pengaturan Kp yang tepat untuk stabilitas robot.
 
         \begin{table}[h]
             \centering
-            \caption{Root Mean Square (RMS) pada Pengujian Pengaruh Parameter P}
-            \begin{tabular}{|c|c|}
-            \hline
-            \textbf{PID} & \textbf{RMS Error} \\
-            \hline
-            $K_p = 0.00$ & 0.7598 \\
-            $K_p = 0.05$ & 0.7690 \\
-            $K_p = 0.10$ & 0.7779 \\
-            $K_p = 0.15$ & 0.8145 \\
-            $K_p = 0.20$ & 0.8870 \\
-            $K_p = 0.25$ & 0.8801 \\
-            \hline
+            \caption{Hasil Pengujian Pengaruh Parameter PI, Mengangkat Kaki Kanan Dengan Kemiringan 3 Derajat}
+            \begin{tabular}{|c|c|c|c|c|}
+                \hline
+                \textbf{PID} & \textbf{Fall} & \textbf{Not Fall} & \textbf{Success} & RMS Error \\
+                \hline
+                $K_p = 0.1, K_i = 0.01$ & 2 & 4 & 66 \%  & 0.9701\\
+                $K_p = 0.1, K_i = 0.02$ & 2 & 4 & 66 \%  & 0.8950\\
+                $K_p = 0.1, K_i = 0.04$ & 1 & 5 & 83 \%  & 0.9345\\
+                $K_p = 0.1, K_i = 0.10$ & 0 & 6 & 100 \% & 0.8471\\
+                $K_p = 0.1, K_i = 0.20$ & 0 & 6 & 100 \% & 0.8980\\           
+                \hline
             \end{tabular}
-            \label{tab:ems_p}
+            \label{tab:pengujian_pi}
         \end{table}
+
+        \hspace*{1em} Hasil pengujian pada Tabel \ref{tab:pengujian_pi} menunjukkan bahwa nilai optimal parameter Ki untuk menjaga keseimbangan robot berkisar antara 0.10 hingga 0.20. Pada Ki = 0.01 dan Ki = 0.02  robot gagal menjaga keseimbangan dengan tingkat keberhasilan 66\% hingga 83\%. Sebaliknya, pada Ki = 0.10 dan Ki = 0.20  robot berhasil menjaga keseimbangan dengan tingkat keberhasilan 100\% pada gerakan mengangkat kaki kanan dan kiri di kemiringan 3 derajat. Hasil \textit{Root Mean Square} (RMS) menunjukkan nilai terendah pada Ki = 0.10 sebesar 0.8471, sementara nilai tertinggi pada Ki = 0.01 sebesar 0.9701. Pengaruh Ki terhadap performa tidak terlalu signifikan, dan dalam beberapa kasus, nilai Ki yang lebih tinggi menurunkan performa sistem, menunjukkan bahwa parameter Ki dalam kontrol PID pada sistem ini tidak terlalu diperlukan.
 
         \begin{table}[h]
             \centering
-            \caption{Hasil Pengujian Pengaruh Parameter P pada Kontroler PID, Gerakan Angkat Kaki Kanan}
-            \begin{tabular}{|c|c|c|c|}
+            \caption{Hasil Pengujian Pengaruh Parameter PD, Mengangkat Kaki Kanan Dengan Kemiringan 3 Derajat}
+            \begin{tabular}{|c|c|c|c|c|}
                 \hline
-                \textbf{PID} & \textbf{Fall} & \textbf{Not Fall} & \textbf{Success} \\
+                \textbf{PID} & \textbf{Fall} & \textbf{Not Fall} & \textbf{Success} & RMS Error \\
                 \hline
-                $K_p = 0.00$ & 6 & 0 & 0   \% \\
-                $K_p = 0.05$ & 6 & 0 & 0   \% \\
-                $K_p = 0.10$ & 0 & 6 & 100 \% \\
-                $K_p = 0.15$ & 1 & 5 & 83  \% \\
-                $K_p = 0.20$ & 0 & 6 & 100 \% \\
-                $K_p = 0.25$ & 2 & 4 & 66  \% \\            
-                \hline
-            \end{tabular}
-            \label{tab:pengujian_p_kanan}
-        \end{table}
-
-        \begin{table}[h]
-            \centering
-            \caption{Hasil Pengujian Pengaruh Parameter P pada Kontroler PID, Gerakan Angkat Kaki Kiri}
-            \begin{tabular}{|c|c|c|c|}
-                \hline
-                \textbf{PID} & \textbf{Fall} & \textbf{Not Fall} & \textbf{Success} \\
-                \hline
-                $K_p = 0.00$ & 6 & 0 & 0   \% \\
-                $K_p = 0.05$ & 6 & 0 & 0   \% \\
-                $K_p = 0.10$ & 0 & 6 & 100  \% \\
-                $K_p = 0.15$ & 1 & 5 & 83  \% \\
-                $K_p = 0.20$ & 1 & 5 & 83  \% \\
-                $K_p = 0.25$ & 0 & 6 & 100 \% \\            
+                $K_p = 0.1, K_d = 0.005$ & 0 & 6 & 100 \% & 0.7143 \\
+                $K_p = 0.1, K_d = 0.010$ & 0 & 6 & 100 \% & 0.7077 \\
+                $K_p = 0.1, K_d = 0.020$ & 2 & 4 & 66  \% & 0.7262 \\
+                $K_p = 0.1, K_d = 0.050$ & 5 & 1 & 16  \% & 0.7344 \\
+                $K_p = 0.1, K_d = 0.100$ & 6 & 0 & 0   \% & 0.9231 \\          
                 \hline
             \end{tabular}
-            \label{tab:pengujian_p_kiri}
+            \label{tab:pengujian_pd}
         \end{table}
 
-        \hspace*{1em} Dari hasil pengujian yang disajikan dalam tabel-tabel tersebut, nilai optimal dari parameter \(K_p\) yang memungkinkan robot untuk menjaga keseimbangan dengan baik berkisar antara 0.10 hingga 0.20. Pada nilai \(K_p\) = 0.00 dan \(K_p\) = 0.05, semua pengujian gagal dengan robot selalu jatuh, menunjukkan bahwa kontrol PID tidak efektif pada nilai tersebut. Sebaliknya, nilai \(K_p = 0.10\) menunjukkan performa terbaik dengan keberhasilan 100\% dalam menjaga keseimbangan robot pada gerakan mengangkat kaki kanan maupun kaki kiri di kemiringan 3 derajat. 
-
-        \hspace*{1em} Kemudian dari hasil \textit{Root Mean Square (RMS)} yang disajikan dalam Tabel \ref{tab:ems_p}, terlihat bahwa nilai RMS terkecil diperoleh pada \(K_p = 0.10\), menunjukkan ketidakakuratan terkecil dalam sistem pada nilai ini. 
+        \hspace*{1em} Hasil pengujian pada Tabel \ref{tab:pengujian_pd} menunjukkan bahwa nilai optimal parameter Kd untuk menjaga keseimbangan robot berkisar antara 0.005 hingga 0.020. Pada Kd = 0.005 dan Kd = 0.010, robot berhasil menjaga keseimbangan dengan tingkat keberhasilan 100\%. Namun, pada Kd = 0.020, tingkat keberhasilan menurun menjadi 66\%, dan pada Kd = 0.050, tingkat keberhasilan hanya 16\%. Pada Kd = 0.100, robot selalu jatuh. Hasil \textit{Root Mean Square} (RMS) menunjukkan nilai terendah pada Kd = 0.010 sebesar 0.7077, sementara nilai tertinggi pada Kd = 0.100 sebesar 0.9231. Pengaruh Kd terhadap performa sistem cukup signifikan, dan nilai Kd yang lebih tinggi menurunkan performa sistem.
 
 \end{enumerate}
