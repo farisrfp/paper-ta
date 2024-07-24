@@ -3,11 +3,6 @@
 \label{sec:tinjauanpustaka}
 
 \begin{enumerate}[label=\Alph*.]
-    \item Robot Humanoid
-    \label{subsec:robothumanoid}
-
-    \hspace*{1em} Robot humanoid adalah robot yang meniru penampilan keseluruhan manusia dan mampu berinteraksi dengan lingkungan dan peralatan sekitarnya. Secara umum, robot humanoid terdiri dari komponen kepala, badan, dua lengan, dan dua kaki, dengan sendi gerak yang meniru struktur tubuh manusia, yang dikendalikan menggunakan servo.
-
     \item Sensor Load Cell
     \label{subsec:sensorloadcell}
 
@@ -15,7 +10,7 @@
 
     \begin{figure}[h]
         \centering
-        \includegraphics[width=0.35\textwidth]{./gambar/wheatstone_loadcell.png}
+        \includegraphics[width=0.3\textwidth]{./gambar/wheatstone_loadcell.png}
         \caption{Rangkaian Wheatstone Bridge pada Load Cell\cite{rahman2018autonomous}.}
         \label{fig:Wheatstone_Bridge}
     \end{figure}
@@ -30,18 +25,26 @@
     \item \textit{Real Time Operating System} (RTOS)
     \label{subsec:rtos}
 
-    \hspace*{1em} Real-Time Operating System (RTOS) adalah komponen penting dalam sistem tertanam modern. Kemampuannya dalam mengelola tugas konkuren secara efektif memungkinkan sistem untuk memproses data dari berbagai sensor, seperti load cell, secara simultan, dan mengendalikan aktuator dengan presisi tinggi \cite{sayyad2023real}. RTOS memungkinkan sistem untuk menjalankan berbagai tugas secara bersamaan, dengan memprioritaskan tugas-tugas yang lebih penting\cite{digikey2021task}. Hal ini memungkinkan robot untuk merespons dengan cepat terhadap perubahan lingkungan, seperti menjaga keseimbangan, dan secara keseluruhan meningkatkan kinerja dan adaptabilitas robotika yang menggunakan sitem tertanam.
+    \hspace*{1em} Real-Time Operating System (RTOS) adalah komponen penting dalam sistem tertanam modern. Kemampuannya dalam mengelola tugas konkuren secara efektif memungkinkan sistem untuk memproses data dari berbagai sensor, seperti \emph{load cell}, secara simultan, dan mengendalikan aktuator dengan presisi tinggi \cite{sayyad2023real}. Penjadwalan tugas yang tepat waktu dan penanganan interupsi yang efisien memastikan respons cepat dan stabil dari robot, yang sangat penting dalam aplikasi robotika yang dinamis dan kompleks.
+
+    \begin{figure} [h] \centering
+      \includegraphics[scale=0.4]{gambar/rtos.png}
+      \caption{Task Scheduling (RTOS)\cite{digikey2021task}.}
+      \label{fig:RTOS}
+    \end{figure}
+  
+    \hspace*{1em} State diagram pada Gambar \ref{fig:RTOS} menggambarkan bagaimana RTOS memungkinkan sistem untuk menjalankan berbagai tugas secara bersamaan, dengan memprioritaskan tugas-tugas yang lebih penting\cite{digikey2021task}. Hal ini memungkinkan robot untuk merespons dengan cepat terhadap perubahan lingkungan, seperti menjaga keseimbangan, dan secara keseluruhan meningkatkan kinerja dan adaptabilitas sistem robotika.
 
     \item Sistem Kontrol PID
     \label{subsec:sistemkontrolpid}
 
     \hspace*{1em} Penggunaan sistem kontrol PID (Proportional-Integral-Derivative) adalah metode yang umum digunakan dalam kontrol servo motor. Sistem ini membantu menjaga keseimbangan dan stabilitas robot dengan mengoreksi pergerakan berdasarkan nilai error yang dihasilkan dari perbedaan antara posisi aktual dan posisi yang diinginkan. PID terdiri dari tiga komponen utama: kontrol proporsional (P), integral (I), dan diferensial (D). Masing-masing komponen ini berfungsi untuk memperbaiki kesalahan dengan cara yang berbeda.
 
-    \hspace*{1em} Gabungan dari ketiga komponen ini membentuk kontrol PID yang efektif dalam menjaga keseimbangan dan stabilitas robot. Pengaturan parameter $K_p$, $K_i$, dan $K_d$ yang tepat sangat penting untuk memastikan sistem berkinerja optimal dan responsif.
-
     \begin{equation}
       \mathrm{Koreksi} = K_p \cdot \mathrm{error} + K_i \cdot \int_{0}^{t} \mathrm{error} \cdot dt + K_d \cdot \frac{d\mathrm{error}}{dt}
     \end{equation}
+
+    \hspace*{1em} Gabungan dari ketiga komponen ini membentuk kontrol PID yang efektif dalam menjaga keseimbangan dan stabilitas robot. Pengaturan parameter $K_p$, $K_i$, dan $K_d$ yang tepat sangat penting untuk memastikan sistem berkinerja optimal dan responsif.
 
     \item Pusat Tekanan
     \label{subsec:pusattekanan}

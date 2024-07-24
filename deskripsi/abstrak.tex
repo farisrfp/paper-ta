@@ -4,18 +4,16 @@
 
 \begin{abstract}
 
-  % Ubah paragraf berikut sesuai dengan abstrak dari penelitian.
-  Keseimbangan dan stabilitas menjadi aspek kunci dalam pengembangan robot humanoid, terutama ketika robot harus melakukan aktivitas yang melibatkan gerakan kaki dengan tumpuan hanya pada satu kaki. Penelitian ini bertujuan untuk mengembangkan sistem keseimbangan pada robot humanoid dengan menggunakan sensor \emph{load cell} pada telapak kaki. Robot humanoid yang digunakan dalam penelitian ini menggunakan robot VI-ROSE ITS. Sistem keseimbangan yang dikembangkan akan memonitor perubahan beban pada kedua telapak kaki robot dan menghitung titik pusat tekanan (\textit{Center of Pressure}) terhadap robot. Sistem keseimbangan berbasis \emph{load cell} pada robot humanoid VI-ROSE ITS dengan menggunakan empat \emph{load cell} yang diproses oleh mikrokontroler ESP32-C3 dan dikirimkan ke mikrokontroler utama melalui protokol ESP-NOW. Data yang diterima digunakan untuk mendeteksi posisi pusat tekanan dan mengontrol gerakan robot agar dapat berdiri dan berjalan dengan stabil menggunakan kontrol PID. Pemilihan ESP32-C3 didasari oleh kemampuannya mengolah data dengan cepat dan ukurannya yang kecil, memungkinkan penempatan pada telapak kaki robot. Hasil penelitian menunjukkan bahwa sistem ini efektif menjaga keseimbangan robot pada bagian \textit{roll} selama fase \textit{single phase support}, dengan nilai koreksi pada servo yang mengatur posisi \textit{roll}. Pengujian kontrol PID menunjukkan bahwa nilai optimal parameter \(K_p\) adalah antara 0.10 hingga 0.20 untuk performa terbaik, sementara parameter \(K_i\) tidak terlalu signifikan, dan \(K_d\) optimal antara 0.005 hingga 0.010, dengan nilai yang terlalu tinggi menyebabkan penurunan performa sistem. 
+  Keseimbangan dan stabilitas menjadi aspek kunci dalam pengembangan robot humanoid, terutama ketika robot harus melakukan aktivitas yang melibatkan gerakan kaki dengan tumpuan hanya pada satu kaki. Penelitian ini bertujuan untuk mengembangkan sistem keseimbangan pada robot humanoid dengan menggunakan sensor \emph{load cell} pada telapak kaki. Robot humanoid yang digunakan dalam penelitian ini menggunakan robot VI-ROSE ITS dengan total derajat kebebasan 29 DoF. Sistem ini memonitor perubahan tekanan pada kedua telapak kaki robot dan menghitung titik pusat tekanan (\textit{Center of Pressure}) terhadap robot. Perhitungan pusat teknanan tersebut menggunakan empat buah \emph{load cell} pada masing-masing telapak kaki yang diproses oleh mikrokontroler terletak pada telapak kaki dan dikirimkan ke mikrokontroler utama secara nirkabel. Kesalahan pengukuran sensor berkisar antara 0-50 gram dengan rata-rata 14.8 gram di kaki kanan dan 14.6 gram di kaki kiri. Sensor dapat mendeteksi pusat tekanan pada sumbu X dengan nilai maksimum 1.44 saat mengangkat kaki kanan dan minimum -1.33 saat mengangkat kaki kiri. Robot mampu menyeimbangkan diri menggunakan kontrol PID pada 5 servo untuk mengatur posisi \textit{roll}, dengan nilai \(K_p\) = 0.10 dan \(K_d\) = 0.005, mencapai tingkat keberhasilan 100\% dalam menjaga keseimbangan saat mengangkat kaki dengan kemiringan 3 derajat.
 
 \end{abstract}
 
-% Mengubah keterangan `Index terms` ke bahasa indonesia.
 % Hapus bagian ini untuk mengembalikan ke format awal.
 \renewcommand\IEEEkeywordsname{Kata kunci}
 
 \begin{IEEEkeywords}
 
   % Ubah kata-kata berikut sesuai dengan kata kunci dari penelitian.
-  Robot Humanoid, Load Cell Sensor, Center of Pressure
+  Robot Humanoid, Sensor \textit{Load Cell}, Pusat Tekanan
 
 \end{IEEEkeywords}
