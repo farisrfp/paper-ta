@@ -95,7 +95,7 @@
     \item Algoritma Sistem Kontrol PID
     \label{subsec:algoritmakontrolpid}
 
-    \hspace*{1em} Pada penelitian ini, terdapat dua kontrol PID, yaitu kontrol PID Pitch dan kontrol PID Roll. Pada kontrol PID Pitch, input berupa nilai posisi pusat tekanan pada sumbu Y. Sedangkan pada kontrol PID Roll, input berupa nilai posisi pusat tekanan pada sumbu X. Untuk setpoint kontrol PID Pitch dan Roll, digunakan nilai yang sudah ditemukan pada pengambilan data input pusat tekanan sebelumnya. Nilai error diperoleh dari selisih antara posisi pusat tekanan saat ini dengan setpoint seperti pada Persamaan \ref{eq:Error_PID} dan koreksi PID dihitung dengan Persamaan \ref{eq:Koreksi_PID}.
+    \hspace*{1em} Pada penelitian ini, terdapat dua kontrol PID, yaitu kontrol PID Pitch dan kontrol PID Roll. Pada kontrol PID Pitch, input berupa nilai posisi pusat tekanan pada sumbu Y. Sedangkan pada kontrol PID Roll, input berupa nilai posisi pusat tekanan pada sumbu X. Untuk setpoint kontrol PID Pitch dan Roll, digunakan nilai yang sudah ditemukan pada pengambilan data pusat tekanan sebelumnya. Pada Persamaan \ref{eq:Error_PID}, nilai error diperoleh dari selisih antara posisi pusat tekanan saat ini dengan setpoint. Kemudian, pada persamaan \ref{eq:Koreksi_PID}, nilai error digunakan untuk menghitung nilai koreksi yang akan digunakan untuk mengatur posisi servo sebagai kompensasi.
 
     \begin{equation}
       \mathrm{e} = COP_{\mathrm{error}} = COP_{\mathrm{set}} - COP_{\mathrm{input}}
@@ -103,7 +103,7 @@
     \end{equation}
 
     \begin{equation}
-      \mathrm{Koreksi} = \mathrm{Kp} \cdot \mathrm{e} + \mathrm{Ki} \cdot \int \mathrm{e} + \mathrm{Kd} \cdot \frac{\mathrm{de}}{\mathrm{dt}}
+      \theta_\mathrm{e} = \mathrm{Kp} \cdot \mathrm{e} + \mathrm{Ki} \cdot \int \mathrm{e} + \mathrm{Kd} \cdot \frac{\mathrm{de}}{\mathrm{dt}}
       \label{eq:Koreksi_PID}
     \end{equation}
 
@@ -113,7 +113,7 @@
       \label{fig:Flow_Kontrol}
     \end{figure}
     
-    \hspace*{1em} Pada flowchart Gambar \ref{fig:Flow_Kontrol}, ditunjukkan tahapan respon sistem terhadap \textit{error} yang disebabkan oleh perbedaan antara posisi pusat tekanan yang diinginkan dan yang sebenarnya. Pertama, nilai PID diatur sesuai karakteristik sistem, kemudian setpoint diatur sesuai posisi pusat tekanan yang diinginkan. \textit{Error} dihitung dengan mengurangkan nilai setpoint dari nilai input menggunakan persamaan \ref{eq:Error_PID}. Nilai \textit{error} ini digunakan untuk menghitung koreksi menggunakan persamaan \ref{eq:Koreksi_PID}, yang kemudian digunakan untuk mengatur posisi servo sebagai kompensasi. Robot akan melakukan gerakan untuk menjaga keseimbangan berdasarkan koreksi yang dihasilkan oleh kontrol PID, yang berjalan terus menerus hingga \textit{motion} robot selesai.
+    \hspace*{1em} Pada flowchart Gambar \ref{fig:Flow_Kontrol}, ditunjukkan tahapan respon sistem terhadap \textit{error} yang disebabkan oleh perbedaan antara posisi pusat tekanan yang diinginkan dan yang sebenarnya. Pertama, nilai PID diatur sesuai karakteristik sistem, kemudian setpoint diatur sesuai posisi pusat tekanan yang diinginkan. \textit{Error} dihitung dengan persamaan \ref{eq:Error_PID}. Nilai \textit{error} ini digunakan untuk menghitung koreksi menggunakan persamaan \ref{eq:Koreksi_PID}. Robot akan melakukan gerakan untuk menjaga keseimbangan berdasarkan koreksi yang dihasilkan oleh kontrol PID, yang berjalan terus menerus hingga \textit{motion} robot selesai.
 
     \begin{figure} [h] \centering
       \includegraphics[width=0.4\textwidth]{gambar/pid_diagram.png}
@@ -121,18 +121,35 @@
       \label{fig:Control_System}
     \end{figure}
 
-    \hspace*{1em}  Gambar \ref{fig:Control_System} menunjukkan diagram sistem kontrol yang terdiri dari tiga blok utama: blok kontrol PID, blok servo sebagai kompensasi, dan blok pusat tekanan. Blok kontrol PID menghitung nilai koreksi berdasarkan \textit{error} antara posisi pusat tekanan yang diinginkan dan yang sebenarnya. Nilai koreksi ini digunakan untuk mengatur posisi servo pada blok servo sebagai kompensasi. Blok pusat tekanan menghitung posisi pusat tekanan pada telapak kaki robot dan menyediakan data ini sebagai input pada kontrol PID.
+    \hspace*{1em}  Gambar \ref{fig:Control_System} menunjukkan diagram sistem kontrol yang terdiri dari tiga blok utama: blok PID, blok servo sebagai kompensasi, dan blok pusat tekanan. Blok {PID System} menghitung nilai koreksi dengan persamaan \ref{eq:Koreksi_PID}. Dimana nilai error diperoleh dari selisih antara $COP_{setpoint}$ dan $COP_{input}$. Nilai koreksi ini digunakan untuk mengatur posisi servo pada blok servo sebagai kompensasi dengan menggunakan 5 servo yang mengatur posisi roll robot. Blok pusat tekanan menghitung posisi pusat tekanan pada telapak kaki robot dan menyediakan data ini sebagai input pada kontrol PID.
 
     \item Pengaturan Servo sebagai Kompensasi
     \label{subsec:servosettings}
 
-    \hspace*{1em} Pada penelitian ini, servo yang digunakan untuk menjaga keseimbangan adalah servo yang mengatur posisi \textit{roll} robot. Servo tersebut terletak pada \textit{torso}, \textit{hip}, dan \textit{ankle}. Servo pada \textit{torso}, \textit{hip}, dan\textit{ankle}. Dengan mengatur beberapa sudut servo, robot dapat melakukan penyesuaian yang diperlukan untuk mempertahankan keseimbangan saat bergerak atau berdiri di permukaan yang tidak rata. Terdapat lima servo yang digunakan yang terdiri dari satu servo pada \textit{torso} (ID 1), dua servo pada masing-masing \textit{hip} (ID 4 dan ID 5), dan dua servo pada masing-masing \textit{hip} (ID 13 dan ID 14). Pengaturan servo sebagai kompensasi dapat dilihat pada Gambar \ref{fig:Controlled_Servo}, ditunjukkan oleh servo yang diwarnai biru.
+    \hspace*{1em} Pada penelitian ini, servo yang digunakan untuk menjaga keseimbangan adalah servo yang mengatur posisi \textit{roll} robot. Servo tersebut terletak pada \textit{torso}, \textit{hip}, dan \textit{ankle}. Servo pada \textit{torso}, \textit{hip}, dan \textit{ankle}. Dengan mengatur beberapa sudut servo, robot dapat melakukan penyesuaian yang diperlukan untuk mempertahankan keseimbangan saat bergerak atau berdiri di permukaan yang tidak rata. Terdapat lima servo yang digunakan yang terdiri dari satu servo pada \textit{torso} (ID 1), dua servo pada masing-masing \textit{hip} (ID 4 dan ID 5), dan dua servo pada masing-masing \textit{hip} (ID 13 dan ID 14). Pengaturan servo sebagai kompensasi dapat dilihat pada Gambar \ref{fig:Controlled_Servo}, ditunjukkan oleh servo yang diwarnai biru.
 
     \begin{figure} [h] \centering
       \includegraphics[width=0.4\textwidth]{gambar/controlled_servo.png}
       \caption{Pengaturan Servo sebagai Kompensasi Ditunjukkan dengan Warna Biru}
       \label{fig:Controlled_Servo}
     \end{figure}
+    
+    \begin{equation}
+      \theta_{\mathrm{torso}} = \theta_{\mathrm{torso}} + (\mathrm{Koreksi}_{\mathrm{roll}} \cdot 0.8)
+      \label{eq:Koreksi_Torso}
+    \end{equation}
+    
+    \begin{equation}
+      \theta_{\mathrm{hip}} = \theta_{\mathrm{hip}} + (\mathrm{Koreksi}_{\mathrm{roll}} \cdot 1)
+      \label{eq:Koreksi_Hip}
+    \end{equation}
+    
+    \begin{equation}
+      \theta_{\mathrm{ankle}} = \theta_{\mathrm{ankle}} + (\mathrm{Koreksi}_{\mathrm{roll}} \cdot 0.4)
+      \label{eq:Koreksi_Ankle}
+    \end{equation}
+    
+    \hspace*{1em} Pada persamaan \ref{eq:Koreksi_Torso}, nilai koreksi digunakan untuk mengatur posisi servo pada \textit{torso} dengan faktor 0.8. Pada persamaan \ref{eq:Koreksi_Hip}, nilai koreksi digunakan untuk mengatur posisi servo pada \textit{hip} dengan faktor 1. Pada persamaan \ref{eq:Koreksi_Ankle}, nilai koreksi digunakan untuk mengatur posisi servo pada \textit{ankle} dengan faktor 0.4.  Pembagian skala nilai koreksi pada servo ditentukan dengan \textit{trial and error} dengan memperhatikan pengaruh pada setiap bagian tubuh robot dan spesiikasi dari servo yang digunakan.
 
     \hspace*{1em} 
 \end{enumerate}

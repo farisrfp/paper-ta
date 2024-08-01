@@ -143,11 +143,78 @@ Dilakukan pengujian dan analisis terhadap perancangan dan implementasi yang tela
 
         \hspace*{1em} Hasil pengukuran tekanan pada kaki kiri dan kaki kanan menunjukkan bahwa pembacaan \emph{load cell} pada kedua kaki memiliki kesalahan yang bervariasi, berkisar antara 0 hingga 50 gr. Kesalahan ini disebabkan oleh perbedaan karakteristik antara \emph{load cell} pada kaki kiri dan kaki kanan. Pada Gambar \ref{fig:tekanan_kaki} terlihat bahwa grafik tekanan yang dihasilkan oleh kaki kanan dan kaki kiri memiliki nilai pembacaan yang serupa.
 
+    \newpage
+
+    \item Pengujian Pusat Tekanan Terhadap Robot
+    \label{subsec:hasil-pembahasan-pusat-tekanan}
+
+        \hspace*{1em} Pengujian ini dilakukan ketika robot menjalankan motion dan mengambil data input dari sensor load cell dengan interval 50 ms. Tujuan pengujian ini adalah untuk mendapatkan data pusat tekanan saat robot menjalankan motion. Pengujian dilakukan seperti pada Gambar \ref{fig:pusat_tekanan_robot} dengan mengambil 3 data pusat tekanan saat robot melakukan motion berjalan di tempat yaitu ketika robot pada posisi \textit{double support}, mengangkat kaki kanan, dan mengangkat kaki kiri. 
+
+        \begin{figure}[h]
+            \centering
+            \includegraphics[width=0.4\textwidth]{gambar/hasil/jalan_ditempat.png}
+            \caption{Postur Robot Saat Berjalan di Tempat \\ (a)  \textit{Double Phase Support} \\ (b)  Mengangkat Kaki Kanan \\ (c)  Mengangkat Kaki Kiri}
+            \label{fig:pusat_tekanan_robot}
+        \end{figure}
+
+        \hspace*{1em} Untuk menampilkan data pusat tekanan yang dihasilkan oleh robot, digunakan visualisasi kaki robot. Posisi pusat tekanan pada sumbu X dan Y ditampilkan dalam bentuk titik koordinat dengan skala 2:1. Visualisasi ini dapat membantu dalam memahami posisi pusat tekanan pada robot ketika melakukan gerakan berjalan di tempat. Data diambil berdasarkan 3 data pusat tekanan yang dihasilkan pada skenario sebelumnya.
+
+        \hspace*{1em} Pada Gambar \ref{fig:pusat_tekanan_robot_double} pusat tekanan pada Sumbu X 0.09 pada dan pada Sumbu Y 0.01. Pada Gambar \ref{fig:pusat_tekanan_robot_angkat_kiri} pusat tekanan pada Sumbu X -1.30 dan pada Sumbu Y 0.16. Sedangkan pada Gambar \ref{fig:pusat_tekanan_robot_angkat_kanan} pusat tekanan pada Sumbu X 1.44 dan Sumbu Y 0.03. Dari hasil visualisasi ini, pusat tekanan pada sumbu X mengalami perubahan yang signifikan ketika robot mengangkat kaki kiri dan kaki kanan, sedangkan pada sumbu Y, titik koordinat pusat tekanan tetap berada di tengah-tengah telapak kaki.
+        
+        \newpage
+
+        \begin{figure}[h]
+            \centering
+            \includegraphics[width=0.3\textwidth]{gambar/hasil/cop_double_phase.png}
+            \caption{\textit{COP} Robot Ketika \textit{Double Phase Support}}
+            \label{fig:pusat_tekanan_robot_double}
+        \end{figure}
+        
+        \begin{figure}[h]
+            \centering
+            \includegraphics[width=0.3\textwidth]{gambar/hasil/cop_angkat_kiri.png}
+            \caption{\textit{COP} Robot Ketika Robot Mengangkat Kaki Kiri}
+            \label{fig:pusat_tekanan_robot_angkat_kiri}
+        \end{figure}
+        
+        \begin{figure}[h]
+            \centering
+            \includegraphics[width=0.3\textwidth]{gambar/hasil/cop_angkat_kanan.png}
+            \caption{\textit{COP} Robot Ketika Robot Mengangkat Kaki Kanan}
+            \label{fig:pusat_tekanan_robot_angkat_kanan}
+        \end{figure}
+        
+
     \item Pengujian Sistem Kontrol PID
     \label{subsec:hasil-pembahasan-pid}
 
-        \hspace*{1em} Pengujian ini, dilakukan skenario pengujian ini meliputi analisis pengaruh masing-masing parameter PID. Hasil yang akan dianalisis adalah pengaruh parameter PID terhadap respon sistem dan hasil nilai \textit{Root Mean Square (RMS)} yang dihasilkan oleh sistem. Pengujian dilakukan dengan mengangkat kaki kanan atau kaki kiri dengan kemiringan 3 derajat. Berikut adalah hasil pengujian sistem keseimbangan robot.
+        \hspace*{1em} Pada pengujian ini, dilakukan pengujian sistem keseimbangan robot dengan kontrol PID. Hasil yang akan dianalisis adalah respons sistem ketika menggunakan sistem kontrol PID dan tanpa kontrol PID. Pengujian dilakukan dengan mengangkat kaki kanan atau kaki kiri dengan kemiringan 3 derajat.
+
+        \hspace*{1em} Gambar \ref{fig:robot_not_fall} merupakan hasil pengujian robot sudah menggunakan kontroler PID. Sedangkan Gambar \ref{fig:robot_fall} tanpa kontroler PID. Pada Gambar \ref{fig:robot_not_fall}, jika nilai pusat tekanan pada sumbu X melebihi batas maksimum dalam waktu tertentu, maka robot akan terjatuh. Hal ini menunjukkan bahwa nilai \emph{error} yang dihasilkan oleh kontroler PID tidak dapat dikalkulasi dengan baik karena nilai input yang diterima oleh kontroler PID tidak sesuai dengan yang diharapkan.
+
+        \newpage
+
         
+        \begin{figure}[h]
+            \centering
+            \includegraphics[width=0.4\textwidth]{gambar/hasil/hasil_pid.png}
+            \caption{Grafik Respon Sistem Dengan Kontrol PID (Tidak Jatuh)}
+            \label{fig:robot_not_fall}
+        \end{figure}
+
+
+        \begin{figure}[h]
+            \centering
+            \includegraphics[width=0.4\textwidth]{gambar/hasil/hasil_no_pid.png}
+            \caption{Grafik Respon Sistem Tanpa Kontrol PID (Jatuh)}
+            \label{fig:robot_fall}
+        \end{figure}
+
+    \item Pengujian Pengaruh Parameter PID
+    \label{subsec:hasil-pembahasan-parameter-pid}
+        
+        \hspace*{1em} Pengujian ini, dilakukan skenario pengujian ini meliputi analisis pengaruh masing-masing parameter PID. Hasil yang akan dianalisis adalah pengaruh parameter PID terhadap respon sistem dan hasil nilai \textit{Root Mean Square (RMS)} yang dihasilkan oleh sistem. Pengujian dilakukan sama seperti pada pengujian sebelumnya, yaitu mengangkat kaki kanan atau kaki kiri dengan kemiringan 3 derajat.
+
         \begin{table}[h]
             \centering
             \caption{Hasil Pengujian Pengaruh Parameter P, Mengangkat Kaki Kiri Dengan Kemiringan 3 Derajat}
